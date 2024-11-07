@@ -11,7 +11,6 @@ env:
   fftwmd5hash: "8ccbf6a5ea78a16dbc3e1306e234cc5c"
   fftwversion: "3.3.10"
   fftwcompileto: C:\FOSS\fftw3
-  CL_MPCount: 4
 
 jobs:
   build:
