@@ -98,5 +98,5 @@ jobs:
         uses: actions/upload-artifact@v4
         if: ${{ success() }}
         with:
-          name: Gromacs-${{ env.gmxversion }}_windows-amd64_CPU-AVX2_fftw3_msvc142.zip
+          name: Gromacs-${{ env.gmxversion }}_windows-amd64_CPU-AVX2_fftw3_msvc142
           path: ${{ env.gmxcompileto }}
