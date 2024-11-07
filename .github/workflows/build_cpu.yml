@@ -28,7 +28,7 @@ jobs:
           New-Item -ItemType Directory -Name OpenBLAS -Path C:\FOSS
           Set-Location C:\FOSS\OpenBLAS
           vcpkg new --application
-          vcpkg add port openblas
+          vcpkg add port openblas[threads]
           vcpkg install
 
       - name: Download Gromacs and FFTW
