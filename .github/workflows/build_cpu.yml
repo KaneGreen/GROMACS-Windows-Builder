@@ -1,6 +1,6 @@
 name: build_cpu
 
-on: 
+on:
   push:
     branches:
       - master
@@ -33,7 +33,7 @@ jobs:
           curl -Lfo fftw_src.tar.gz ${{ env.fftwlink }}
           echo "${{ env.fftwmd5hash }}  fftw_src.tar.gz" | md5sum -c
           tar xf fftw_src.tar.gz
-    
+
       - name: Compile FFTW double precision
         shell: pwsh
         run: |
@@ -42,11 +42,12 @@ jobs:
           Set-Location build
           cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.fftwcompileto }}" "-DENABLE_AVX=ON" "-DENABLE_AVX2=ON" "-DENABLE_SSE2=ON" "-DENABLE_THREADS=ON" "-DWITH_COMBINED_THREADS=ON" "-DBUILD_SHARED_LIBS=ON" -G "Visual Studio 17 2022" -T "v142" -A "x64"
           cmake --build . --target INSTALL --config Release -- "-maxCpuCount" "-p:CL_MPCount=3"
-      
+          Set-Location ..\..
+          Remove-Item -Path fftw-${{ env.fftwversion }} -Force -Recurse
+
       - name: Unzip FFTW again
         shell: bash
         run: |
-          rm -rf fftw-${{ env.fftwversion }}
           tar xf fftw_src.tar.gz
 
       - name: Compile FFTW single precision
@@ -57,6 +58,8 @@ jobs:
           Set-Location build
           cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.fftwcompileto }}" "-DENABLE_AVX=ON" "-DENABLE_AVX2=ON" "-DENABLE_SSE2=ON" "-DENABLE_THREADS=ON" "-DWITH_COMBINED_THREADS=ON" "-DENABLE_FLOAT=ON" "-DBUILD_SHARED_LIBS=ON" -G "Visual Studio 17 2022" -T "v142" -A "x64"
           cmake --build . --target INSTALL --config Release -- "-maxCpuCount" "-p:CL_MPCount=3"
+          Set-Location ..\..
+          Remove-Item -Path fftw-${{ env.fftwversion }} -Force -Recurse
 
       - name: Compile GROMACS double precision
         shell: pwsh
@@ -66,11 +69,12 @@ jobs:
           Set-Location build
           cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.fftwcompileto }}" "-DGMX_SIMD=AVX2_256" "-DGMX_DOUBLE=on" -G "Visual Studio 17 2022" -T "v142" -A "x64"
           cmake --build . --target INSTALL --config Release -- "-maxCpuCount" "-p:CL_MPCount=3"
+          Set-Location ..\..
+          Remove-Item -Path gromacs-${{ env.gmxversion }} -Force -Recurse
 
       - name: Unzip GROMACS again
         shell: bash
         run: |
-          rm -rf gromacs-${{ env.gmxversion }}
           tar xf gromacs_src.tar.gz
 
       - name: Compile GROMACS single precision
@@ -81,13 +85,13 @@ jobs:
           Set-Location build
           cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.fftwcompileto }}" "-DGMX_SIMD=AVX2_256" -G "Visual Studio 17 2022" -T "v142" -A "x64"
           cmake --build . --target INSTALL --config Release -- "-maxCpuCount" "-p:CL_MPCount=3"
+          Set-Location ..\..
+          Remove-Item -Path gromacs-${{ env.gmxversion }} -Force -Recurse
 
-      - name: Copy DLLs and Cleanup
+      - name: Copy DLLs
         shell: pwsh
         run: |
           Copy-Item -Path "${{ env.fftwcompileto }}\bin\*.dll" -Destination "${{ env.gmxcompileto }}\bin\" -Force
-          Remove-Item -Path fftw-${{ env.fftwversion }} -Force -Recurse
-          Remove-Item -Path gromacs-${{ env.gmxversion }} -Force -Recurse
 
       - name: Upload Firmwares
         uses: actions/upload-artifact@v4
