@@ -11,6 +11,7 @@ env:
   fftwmd5hash: "8ccbf6a5ea78a16dbc3e1306e234cc5c"
   fftwversion: "3.3.10"
   fftwcompileto: C:\FOSS\fftw3
+  CL_MPCount: 4
 
 jobs:
   build:
@@ -38,7 +39,7 @@ jobs:
           mkdir build
           Set-Location build
           cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.fftwcompileto }}" "-DENABLE_AVX=ON" "-DENABLE_AVX2=ON" "-DENABLE_SSE2=ON" "-DBUILD_SHARED_LIBS=ON" -G "Visual Studio 17 2022" -T "v142" -A "x64"
-          cmake --build . --target INSTALL --config Release -- "-maxCpuCount:4" "/p:CL_MPCount=4"
+          cmake --build . --target INSTALL --config Release -- -maxCpuCount
       
       - name: Unzip fftw again
         shell: bash
@@ -53,7 +54,7 @@ jobs:
           mkdir build
           Set-Location build
           cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.fftwcompileto }}" "-DENABLE_AVX=ON" "-DENABLE_AVX2=ON" "-DENABLE_SSE2=ON" "-DENABLE_FLOAT=ON" "-DBUILD_SHARED_LIBS=ON" -G "Visual Studio 17 2022" -T "v142" -A "x64"
-          cmake --build . --target INSTALL --config Release -- "-maxCpuCount:4" "/p:CL_MPCount=4"
+          cmake --build . --target INSTALL --config Release -- -maxCpuCount
       
       - name: Cleanup fftw source
         shell: bash
@@ -67,7 +68,7 @@ jobs:
           mkdir build
           Set-Location build
           cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.fftwcompileto }}" "-DGMX_SIMD=AVX2_256" "-DGMX_DOUBLE=on" -G "Visual Studio 17 2022" -T "v142" -A "x64"
-          cmake --build . --target INSTALL --config Release -- "-maxCpuCount:4" "/p:CL_MPCount=4"
+          cmake --build . --target INSTALL --config Release -- -maxCpuCount
 
       - name: Unzip Gromacs again
         shell: bash
@@ -82,7 +83,7 @@ jobs:
           mkdir build
           Set-Location build
           cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.fftwcompileto }}" "-DGMX_SIMD=AVX2_256" -G "Visual Studio 17 2022" -T "v142" -A "x64"
-          cmake --build . --target INSTALL --config Release -- "-maxCpuCount:4" "/p:CL_MPCount=4"
+          cmake --build . --target INSTALL --config Release -- -maxCpuCount
 
       - name: Cleanup Gromacs source
         shell: bash
