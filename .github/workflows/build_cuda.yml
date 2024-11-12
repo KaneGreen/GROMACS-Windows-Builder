@@ -17,9 +17,6 @@ jobs:
     runs-on: windows-latest
     if: github.event.repository.owner.id == github.event.sender.id
     steps:
-      - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v2
-
       - name: Install OpenBLAS
         shell: pwsh
         env:
@@ -70,7 +67,7 @@ jobs:
           Set-Location gromacs-${{ env.gmxversion }}
           New-Item -ItemType Directory -Name build
           Set-Location build
-          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.fftwcompileto }};C:\FOSS\OpenBLAS\vcpkg_installed\x64-windows" "-DGMX_SIMD=AVX2_256" "-DGMX_GPU=CUDA" -G "Visual Studio 17 2022" -T "v142" -A "x64"
+          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.fftwcompileto }};C:\FOSS\OpenBLAS\vcpkg_installed\x64-windows" "-DGMX_SIMD=AVX2_256" "-DGMX_GPU=CUDA" "-DCMAKE_CUDA_HOST_COMPILER=C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.29.30133/bin/HostX64/x64/cl.exe" -G "Visual Studio 17 2022" -T "v142" -A "x64"
           cmake --build . --target INSTALL --config Release -- "-maxCpuCount" "-p:CL_MPCount=3"
           Set-Location ..\..
           Remove-Item -Path gromacs-${{ env.gmxversion }} -Force -Recurse
