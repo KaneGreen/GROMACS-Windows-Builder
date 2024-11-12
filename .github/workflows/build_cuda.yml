@@ -69,7 +69,7 @@ jobs:
           Set-Location gromacs-${{ env.gmxversion }}
           New-Item -ItemType Directory -Name build
           Set-Location build
-          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.fftwcompileto }};C:\FOSS\OpenBLAS\vcpkg_installed\x64-windows" "-DGMX_SIMD=AVX2_256" "-DGMX_GPU=CUDA" "-DCUDA_TOOLKIT_ROOT_DIR=${{ steps.cuda-toolkit.outputs.CUDA_PATH }}" "-DCMAKE_CUDA_COMPILER=${{ steps.cuda-toolkit.outputs.CUDA_PATH }}\bin\nvcc.exe" -G "Visual Studio 17 2022" -T "v142" -A "x64"
+          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.fftwcompileto }};C:\FOSS\OpenBLAS\vcpkg_installed\x64-windows" "-DGMX_SIMD=AVX2_256" "-DGMX_GPU=CUDA" -G "Visual Studio 17 2022" -T "v142" -A "x64"
           cmake --build . --target INSTALL --config Release -- "-maxCpuCount" "-p:CL_MPCount=3"
           Set-Location ..\..
           Remove-Item -Path gromacs-${{ env.gmxversion }} -Force -Recurse
