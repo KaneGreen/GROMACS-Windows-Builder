@@ -5,7 +5,7 @@ on:
     branches:
       - master
     path:
-      - .github\workflows\build_cpu.yml
+      - .github/workflows/build_cpu.yml
   workflow_dispatch: {}
 
 env:

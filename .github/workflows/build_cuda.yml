@@ -5,7 +5,7 @@ on:
     branches:
       - master
     path:
-      - .github\workflows\build_cuda.yml
+      - .github/workflows/build_cuda.yml
   workflow_dispatch: {}
 
 env:
