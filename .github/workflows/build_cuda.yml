@@ -2,8 +2,6 @@ name: build_cuda
 
 on:
   push:
-    branches:
-      - master
     path:
       - .github/workflows/build_cuda.yml
   workflow_dispatch: {}

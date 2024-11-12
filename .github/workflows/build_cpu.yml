@@ -2,8 +2,6 @@ name: build_cpu
 
 on:
   push:
-    branches:
-      - master
     path:
       - .github/workflows/build_cpu.yml
   workflow_dispatch: {}
