@@ -19,6 +19,9 @@ jobs:
     runs-on: windows-latest
     if: github.event.repository.owner.id == github.event.sender.id
     steps:
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v2
+
       - name: Install OpenBLAS
         shell: pwsh
         env:
