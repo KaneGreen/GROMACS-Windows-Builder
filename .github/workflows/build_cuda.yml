@@ -2,7 +2,7 @@ name: build_cuda
 
 on:
   push:
-    path:
+    paths:
       - .github/workflows/build_cuda.yml
   workflow_dispatch: {}
 
@@ -33,7 +33,7 @@ jobs:
         id: cuda-toolkit
         uses: Jimver/cuda-toolkit@v0.2.18
         with:
-          cuda: "12.1.1"
+          cuda: "12.4.1"
 
       - name: Download Gromacs and FFTW
         shell: bash
@@ -46,6 +46,7 @@ jobs:
           curl -Lfo gromacs_src.tar.gz ${{ env.gmxdownloadlink }}
           echo "${{ env.gmxmd5hash }}  gromacs_src.tar.gz" | md5sum -c
           tar xf gromacs_src.tar.gz
+          sed -i '/Check for working NVCC\/C++ compiler/a    message(STATUS "CUDA_HOST_COMPILER: ${CUDA_HOST_COMPILER}")' gromacs-${{ env.gmxversion }}/cmake/gmxManageNvccConfig.cmake
           curl -Lfo fftw_src.tar.gz ${{ env.fftwlink }}
           echo "${{ env.fftwmd5hash }}  fftw_src.tar.gz" | md5sum -c
           tar xf fftw_src.tar.gz
@@ -85,5 +86,5 @@ jobs:
         uses: actions/upload-artifact@v4
         if: ${{ success() }}
         with:
-          name: GROMACS-${{ env.gmxversion }}_windows-amd64_AVX2_CUDA1211_fftw3_msvc142
+          name: GROMACS-${{ env.gmxversion }}_windows-amd64_AVX2_CUDA1241_fftw3_msvc142
           path: ${{ env.gmxcompileto }}
