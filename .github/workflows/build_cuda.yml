@@ -47,6 +47,9 @@ jobs:
           echo "${{ env.gmxmd5hash }}  gromacs_src.tar.gz" | md5sum -c
           tar xf gromacs_src.tar.gz
           sed -i '/Check for working NVCC\/C++ compiler/a    message(STATUS "CUDA_HOST_COMPILER: ${CUDA_HOST_COMPILER}")' gromacs-${{ env.gmxversion }}/cmake/gmxManageNvccConfig.cmake
+          sed -i '/Check for working NVCC\/C++ compiler/a    message(STATUS "CMAKE_CUDA_HOST_COMPILER: ${CMAKE_CUDA_HOST_COMPILER}")' gromacs-${{ env.gmxversion }}/cmake/gmxManageNvccConfig.cmake
+          sed -i '/Check for working NVCC\/C++ compiler/a    message(STATUS "CXX_COMPILER: ${CXX_COMPILER}")' gromacs-${{ env.gmxversion }}/cmake/gmxManageNvccConfig.cmake
+          sed -i '/Check for working NVCC\/C++ compiler/a    message(STATUS "CMAKE_CXX_COMPILER: ${CMAKE_CXX_COMPILER}")' gromacs-${{ env.gmxversion }}/cmake/gmxManageNvccConfig.cmake
           curl -Lfo fftw_src.tar.gz ${{ env.fftwlink }}
           echo "${{ env.fftwmd5hash }}  fftw_src.tar.gz" | md5sum -c
           tar xf fftw_src.tar.gz
