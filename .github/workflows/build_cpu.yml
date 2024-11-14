@@ -8,9 +8,9 @@ on:
 
 env:
   gmxversion: "2024.4"
-  gmxcompileto: C:\FOSS\gromacs_244
+  gmxcompileto: C:/FOSS/gromacs_244
   fftwversion: "3.3.10"
-  fftwcompileto: C:\FOSS\fftw3
+  fftwcompileto: C:/FOSS/fftw3
 
 jobs:
   build:
@@ -77,7 +77,7 @@ jobs:
           Set-Location gromacs-${{ env.gmxversion }}
           New-Item -ItemType Directory -Name build
           Set-Location build
-          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.fftwcompileto }};C:\FOSS\OpenBLAS\vcpkg_installed\x64-windows" "-DGMX_SIMD=AVX2_256" "-DGMX_DOUBLE=on" -G "Visual Studio 17 2022" -T "v142" -A "x64"
+          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.fftwcompileto }};C:/FOSS/OpenBLAS/vcpkg_installed/x64-windows" "-DGMX_SIMD=AVX2_256" "-DGMX_DOUBLE=on" -G "Visual Studio 17 2022" -T "v142" -A "x64"
           cmake --build . --target INSTALL --config Release -- "-maxCpuCount" "-p:CL_MPCount=3"
           Set-Location ..\..
           Remove-Item -Path gromacs-${{ env.gmxversion }} -Force -Recurse
@@ -93,20 +93,23 @@ jobs:
           Set-Location gromacs-${{ env.gmxversion }}
           New-Item -ItemType Directory -Name build
           Set-Location build
-          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.fftwcompileto }};C:\FOSS\OpenBLAS\vcpkg_installed\x64-windows" "-DGMX_SIMD=AVX2_256" -G "Visual Studio 17 2022" -T "v142" -A "x64"
+          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.fftwcompileto }};C:/FOSS/OpenBLAS/vcpkg_installed/x64-windows" "-DGMX_SIMD=AVX2_256" -G "Visual Studio 17 2022" -T "v142" -A "x64"
           cmake --build . --target INSTALL --config Release -- "-maxCpuCount" "-p:CL_MPCount=3"
           Set-Location ..\..
           Remove-Item -Path gromacs-${{ env.gmxversion }} -Force -Recurse
 
-      - name: Copy DLLs
+      - name: Copy DLLs and Test
         shell: pwsh
         run: |
           Copy-Item -Path "${{ env.fftwcompileto }}\bin\*.dll" -Destination "${{ env.gmxcompileto }}\bin\" -Force
           Copy-Item -Path C:\FOSS\OpenBLAS\vcpkg_installed\x64-windows\bin\*.dll -Destination "${{ env.gmxcompileto }}\bin\" -Force
+          Set-Location ${{ env.gmxcompileto }}\bin
+          .\gmx.exe -version
+          .\gmx_d.exe -version
 
       - name: Upload Firmwares
         uses: actions/upload-artifact@v4
         if: ${{ success() }}
         with:
-          name: GROMACS-${{ env.gmxversion }}_windows-amd64_CPU-AVX2_fftw3_msvc142
+          name: GROMACS-${{ env.gmxversion }}_windows-amd64_CPU-AVX2_msvc142
           path: ${{ env.gmxcompileto }}
