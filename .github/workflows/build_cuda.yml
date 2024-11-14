@@ -38,8 +38,6 @@ jobs:
       - name: Copy BuildCustomizations
         shell: pwsh
         run: |
-          Get-ChildItem "${{ steps.cuda-toolkit.outputs.CUDA_PATH }}\bin"
-          Write-Output "=================================================="
           Copy-Item -Path "${{ steps.cuda-toolkit.outputs.CUDA_PATH }}\extras\visual_studio_integration\MSBuildExtensions\*" -Destination "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Microsoft\VC\v170\BuildCustomizations\" -Force
           Copy-Item -Path "${{ steps.cuda-toolkit.outputs.CUDA_PATH }}\extras\visual_studio_integration\MSBuildExtensions\*" -Destination "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Microsoft\VC\v160\BuildCustomizations\" -Force
 
@@ -85,7 +83,7 @@ jobs:
       - name: Copy DLLs
         shell: pwsh
         run: |
-          Copy-Item -Path "${{ steps.cuda-toolkit.outputs.CUDA_PATH }}\bin\cu*.dll" -Destination "${{ env.gmxcompileto }}\bin\" -Force
+          Copy-Item -Path "${{ steps.cuda-toolkit.outputs.CUDA_PATH }}\bin\cufft64_*.dll" -Destination "${{ env.gmxcompileto }}\bin\" -Force
           Copy-Item -Path "${{ env.fftwcompileto }}\bin\*.dll" -Destination "${{ env.gmxcompileto }}\bin\" -Force
           Copy-Item -Path C:\FOSS\OpenBLAS\vcpkg_installed\x64-windows\bin\*.dll -Destination "${{ env.gmxcompileto }}\bin\" -Force
 
