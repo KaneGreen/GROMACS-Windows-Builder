@@ -92,8 +92,8 @@ jobs:
       - name: Show DLLs
         shell: bash
         run: |
-          cd /c/FOSS/gromacs_244
-          ldd gmx.exe
+          cd /c/FOSS/gromacs_244/bin
+          ldd gmx*.exe
 
       - name: Upload Firmwares
         uses: actions/upload-artifact@v4
