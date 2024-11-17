@@ -80,6 +80,12 @@ jobs:
           Set-Location ..\..
           Remove-Item -Path gromacs-${{ env.gmxversion }} -Force -Recurse
 
+      - name: Checksum
+        shell: bash
+        run:|
+          cd `cygpath "${{ env.gmxcompileto }}"/bin`
+          sha256sum gmx.exe | tee gmx.exe.sha256
+
       - name: Copy DLLs and Test
         shell: pwsh
         run: |
@@ -93,5 +99,5 @@ jobs:
         uses: actions/upload-artifact@v4
         if: ${{ success() }}
         with:
-          name: GROMACS-${{ env.gmxversion }}_windows-amd64_AVX2_CUDA1241_msvc142
+          name: GROMACS-${{ env.gmxversion }}_GPU_Windows-AMD64-AVX2_CUDA1241_msvc142
           path: ${{ env.gmxcompileto }}
