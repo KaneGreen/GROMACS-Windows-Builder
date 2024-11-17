@@ -82,7 +82,7 @@ jobs:
 
       - name: Checksum
         shell: bash
-        run:|
+        run: |
           cd `cygpath "${{ env.gmxcompileto }}"/bin`
           sha256sum gmx.exe | tee gmx.exe.sha256
 
