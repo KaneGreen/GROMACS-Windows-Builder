@@ -20,7 +20,7 @@ jobs:
       - name: Revert CMake version
         shell: pwsh
         run: 
-          $selectapp = (Get-WmiObject -Class Win32_Product -Filter "Name = 'CMake'").IdentifyingNumber
+          $selectapp = (Get-WmiObject -Class Win32_Product -Filter "Name = 'CMake'").IdentifyingNumber;
           C:\Windows\SysWOW64\msiexec.exe /x $selectapp /qn
           Invoke-WebRequest 'https://github.com/Kitware/CMake/releases/download/v3.30.5/cmake-3.30.5-windows-x86_64.msi' -OutFile cmake-3.30.5-windows-x86_64.msi
           C:\Windows\SysWOW64\msiexec.exe /i cmake-3.30.5-windows-x86_64.msi /qn
