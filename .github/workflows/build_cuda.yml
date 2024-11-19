@@ -21,10 +21,10 @@ jobs:
         shell: pwsh
         run: |
           Remove-Item -Path "C:\Program Files\CMake" -Force -Recurse
-          Invoke-WebRequest 'https://github.com/Kitware/CMake/releases/download/v3.30.5/cmake-3.30.5-windows-x86_64.zip' -OutFile cmake-3.30.5-windows-x86_64.zip
-          New-Item -ItemType Directory -Name Temp -Path C:\
-          Expand-Archive -Path cmake-3.30.5-windows-x86_64.zip -DestinationPath C:\Temp
+          Invoke-WebRequest 'https://github.com/Kitware/CMake/releases/download/v3.30.5/cmake-3.30.5-windows-x86_64.zip' -OutFile cmake.zip
+          Expand-Archive -Path cmake.zip -DestinationPath C:\Temp
           Move-Item -Path C:\Temp\cmake-3.30.5-windows-x86_64 -Destination "C:\Program Files\CMake"
+          Remove-Item -Path cmake.zip -Force
 
       - name: Install OpenBLAS and hwloc
         shell: pwsh
