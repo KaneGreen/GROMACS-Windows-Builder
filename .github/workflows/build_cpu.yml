@@ -105,6 +105,15 @@ jobs:
           sha256sum gmx.exe | tee gmx.exe.sha256
           sha256sum gmx_d.exe | tee gmx_d.exe.sha256
 
+      - name: Extra force fields
+        shell: bash
+        run: |
+          cd `cygpath "${{ env.gmxcompileto }}"/share/gromacs/top`
+          curl -Lf 'https://mackerell.umaryland.edu/download.php?filename=CHARMM_ff_params_files/charmm36-jul2021.ff.tgz' | tar -x --ungzip
+          sed -i '1cCHARMM36 all-atom force field (July 2022)' charmm36-jul2021.ff/forcefield.doc
+          curl -Lf 'https://mackerell.umaryland.edu/download.php?filename=CHARMM_ff_params_files/charmm36_ljpme-jul2022.ff.tgz' | tar -x --ungzip
+          sed -i '1cCHARMM36 LJ-PME all-atom force field (July 2022)' charmm36_ljpme-jul2022.ff/forcefield.doc
+
       - name: Copy DLLs and Test
         shell: pwsh
         run: |
