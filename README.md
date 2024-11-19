@@ -5,7 +5,7 @@ GROMACS version: 2024.4
 ## Overall
 - Target OS: Microsoft Windows 10 or 11 (64-bit).
 - Target CPU: CPUs that support AVX2 instructions.
-- Bundled with [FFTW (3.3.10)](https://fftw.org) and [OpenBLAS (latest: currently 0.3.28)](https://www.openblas.net/).
+- Bundled with [FFTW (3.3.10)](https://fftw.org), [OpenBLAS (latest: currently 0.3.28)](https://www.openblas.net/) and [hwloc](https://www.open-mpi.org/projects/hwloc/).
 - Compiled with OpenMP support, but without MPI support.
 - Extra force fields: [CHARMM36 (July 2022)](https://mackerell.umaryland.edu/charmm_ff.shtml#gromacs)
 

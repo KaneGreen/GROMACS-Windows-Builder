@@ -20,11 +20,14 @@ jobs:
       - name: Revert CMake version
         shell: pwsh
         run: |
-          Remove-Item -Path "C:\Program Files\CMake" -Force -Recurse
-          Invoke-WebRequest 'https://github.com/Kitware/CMake/releases/download/v3.30.5/cmake-3.30.5-windows-x86_64.zip' -OutFile cmake.zip
-          Expand-Archive -Path cmake.zip -DestinationPath C:\Temp
-          Move-Item -Path C:\Temp\cmake-3.30.5-windows-x86_64 -Destination "C:\Program Files\CMake"
-          Remove-Item -Path cmake.zip -Force
+          $selectapp = (Get-WmiObject -Class Win32_Product -Filter "Name='CMake'").IdentifyingNumber
+          Write-Output "CMake GUID Found: $selectapp"
+          Start-Process -Wait -FilePath C:\Windows\SysWOW64\msiexec.exe -ArgumentList "/x","$selectapp","/qn"
+          Write-Output "CMake uninstalled."
+          Invoke-WebRequest 'https://github.com/Kitware/CMake/releases/download/v3.30.5/cmake-3.30.5-windows-x86_64.msi' -OutFile cmake.msi
+          Start-Process -Wait -FilePath C:\Windows\SysWOW64\msiexec.exe -ArgumentList "/i","cmake.msi","/qn"
+          Write-Output "CMake installed."
+          Remove-Item -Path cmake.msi -Force
 
       - name: Install OpenBLAS and hwloc
         shell: pwsh
