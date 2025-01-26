@@ -19,8 +19,6 @@ jobs:
     steps:
       - name: Install OpenBLAS and hwloc
         shell: pwsh
-        env:
-          VCPKG_PLATFORM_TOOLSET: "v142"
         run: |
           New-Item -ItemType Directory -Name FOSS -Path C:\
           New-Item -ItemType Directory -Name OpenBLAS -Path C:\FOSS
@@ -51,7 +49,7 @@ jobs:
           Set-Location fftw-${{ env.fftwversion }} 
           New-Item -ItemType Directory -Name build
           Set-Location build
-          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.fftwcompileto }}" "-DENABLE_AVX=ON" "-DENABLE_AVX2=ON" "-DENABLE_SSE2=ON" "-DENABLE_THREADS=ON" "-DWITH_COMBINED_THREADS=ON" "-DBUILD_SHARED_LIBS=ON" -G "Visual Studio 17 2022" -T "v142" -A "x64"
+          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.fftwcompileto }}" "-DENABLE_AVX=ON" "-DENABLE_AVX2=ON" "-DENABLE_SSE2=ON" "-DENABLE_THREADS=ON" "-DWITH_COMBINED_THREADS=ON" "-DBUILD_SHARED_LIBS=ON" -G "Visual Studio 17 2022" -A "x64"
           cmake --build . --target INSTALL --config Release -- "-maxCpuCount" "-p:CL_MPCount=3"
           Set-Location ..\..
           Remove-Item -Path fftw-${{ env.fftwversion }} -Force -Recurse
@@ -67,7 +65,7 @@ jobs:
           Set-Location fftw-${{ env.fftwversion }} 
           New-Item -ItemType Directory -Name build
           Set-Location build
-          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.fftwcompileto }}" "-DENABLE_AVX=ON" "-DENABLE_AVX2=ON" "-DENABLE_SSE2=ON" "-DENABLE_THREADS=ON" "-DWITH_COMBINED_THREADS=ON" "-DENABLE_FLOAT=ON" "-DBUILD_SHARED_LIBS=ON" -G "Visual Studio 17 2022" -T "v142" -A "x64"
+          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.fftwcompileto }}" "-DENABLE_AVX=ON" "-DENABLE_AVX2=ON" "-DENABLE_SSE2=ON" "-DENABLE_THREADS=ON" "-DWITH_COMBINED_THREADS=ON" "-DENABLE_FLOAT=ON" "-DBUILD_SHARED_LIBS=ON" -G "Visual Studio 17 2022" -A "x64"
           cmake --build . --target INSTALL --config Release -- "-maxCpuCount" "-p:CL_MPCount=3"
           Set-Location ..\..
           Remove-Item -Path fftw-${{ env.fftwversion }} -Force -Recurse
@@ -78,7 +76,7 @@ jobs:
           Set-Location gromacs-${{ env.gmxversion }}
           New-Item -ItemType Directory -Name build
           Set-Location build
-          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.fftwcompileto }};C:/FOSS/OpenBLAS/vcpkg_installed/x64-windows" "-DGMX_SIMD=AVX2_256" "-DGMX_DOUBLE=on" "-DGMX_HWLOC=ON" -G "Visual Studio 17 2022" -T "v142" -A "x64"
+          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.fftwcompileto }};C:/FOSS/OpenBLAS/vcpkg_installed/x64-windows" "-DGMX_SIMD=AVX2_256" "-DGMX_DOUBLE=on" "-DGMX_HWLOC=ON" -G "Visual Studio 17 2022" -A "x64"
           cmake --build . --target INSTALL --config Release -- "-maxCpuCount" "-p:CL_MPCount=3"
           Set-Location ..\..
           Remove-Item -Path gromacs-${{ env.gmxversion }} -Force -Recurse
@@ -94,7 +92,7 @@ jobs:
           Set-Location gromacs-${{ env.gmxversion }}
           New-Item -ItemType Directory -Name build
           Set-Location build
-          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.fftwcompileto }};C:/FOSS/OpenBLAS/vcpkg_installed/x64-windows" "-DGMX_SIMD=AVX2_256" "-DGMX_HWLOC=ON" -G "Visual Studio 17 2022" -T "v142" -A "x64"
+          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.fftwcompileto }};C:/FOSS/OpenBLAS/vcpkg_installed/x64-windows" "-DGMX_SIMD=AVX2_256" "-DGMX_HWLOC=ON" -G "Visual Studio 17 2022" -A "x64"
           cmake --build . --target INSTALL --config Release -- "-maxCpuCount" "-p:CL_MPCount=3"
           Set-Location ..\..
           Remove-Item -Path gromacs-${{ env.gmxversion }} -Force -Recurse
@@ -128,5 +126,5 @@ jobs:
         uses: actions/upload-artifact@v4
         if: ${{ success() }}
         with:
-          name: GROMACS-${{ env.gmxversion }}_CPU_Windows-AMD64-AVX2_msvc142
+          name: GROMACS-${{ env.gmxversion }}_CPU_Windows-AMD64-AVX2_msvc
           path: ${{ env.gmxcompileto }}
