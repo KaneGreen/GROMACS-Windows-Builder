@@ -24,7 +24,7 @@ jobs:
           Write-Output "CMake GUID Found: $selectapp"
           Start-Process -Wait -FilePath C:\Windows\System32\msiexec.exe -ArgumentList "/x","$selectapp","/qn"
           Write-Output "CMake uninstalled."
-          Invoke-WebRequest 'https://github.com/Kitware/CMake/releases/download/v3.30.6/cmake-3.30.6-windows-x86_64.msi' -OutFile cmake.msi
+          Invoke-WebRequest 'https://github.com/Kitware/CMake/releases/download/v3.30.7/cmake-3.30.7-windows-x86_64.msi' -OutFile cmake.msi
           Start-Process -Wait -FilePath C:\Windows\System32\msiexec.exe -ArgumentList "/i","cmake.msi","/qn"
           Write-Output "CMake installed."
           Remove-Item -Path cmake.msi -Force
@@ -44,7 +44,7 @@ jobs:
 
       - name: Install CUDA Toolkit
         id: cuda-toolkit
-        uses: Jimver/cuda-toolkit@v0.2.19
+        uses: Jimver/cuda-toolkit@v0.2.20
         with:
           cuda: "12.4.1"
       
