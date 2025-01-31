@@ -42,7 +42,7 @@ jobs:
 
       - name: Install CUDA Toolkit
         id: cuda-toolkit
-        uses: Jimver/cuda-toolkit@v0.2.20
+        uses: Jimver/cuda-toolkit@v0.2.21
         with:
           cuda: "12.4.1"
       
