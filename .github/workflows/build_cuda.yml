@@ -20,10 +20,9 @@ jobs:
       - name: Revert CMake version
         shell: pwsh
         run: |
-          $selectapp = Get-Package -Name "CMake"
-          Write-Output "CMake Version Found: $($selectapp.Version)"
-          Write-Output "CMake GUID Found: $($selectapp.FastPackageReference)"
-          Start-Process -Wait -FilePath C:\Windows\System32\msiexec.exe -ArgumentList "/x","$($selectapp.FastPackageReference)","/qn"
+          $selectapp = (Get-WmiObject -Class Win32_Product -Filter "Name='CMake'").IdentifyingNumber
+          Write-Output "CMake GUID Found: $selectapp"
+          Start-Process -Wait -FilePath C:\Windows\System32\msiexec.exe -ArgumentList "/x","$selectapp","/qn"
           Write-Output "CMake uninstalled."
           Invoke-WebRequest 'https://github.com/Kitware/CMake/releases/download/v3.30.7/cmake-3.30.7-windows-x86_64.msi' -OutFile cmake.msi
           Start-Process -Wait -FilePath C:\Windows\System32\msiexec.exe -ArgumentList "/i","cmake.msi","/qn"
