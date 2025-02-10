@@ -20,7 +20,8 @@ jobs:
       - name: Revert CMake version
         shell: pwsh
         run: |
-          $selectapp = (Get-WmiObject -Class Win32_Product -Filter "Name='CMake'").IdentifyingNumber
+          $selectapp = Get-ItemProperty 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*' | Where-Object DisplayName -eq 'CMake'
+          $selectapp = $selectapp.UninstallString.Split("/X")[-1]
           Write-Output "CMake GUID Found: $selectapp"
           Start-Process -Wait -FilePath C:\Windows\System32\msiexec.exe -ArgumentList "/x","$selectapp","/qn"
           Write-Output "CMake uninstalled."
