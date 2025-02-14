@@ -51,8 +51,6 @@ jobs:
           curl -Lfo gromacs_src.tar.gz ${{ env.gmxdownloadlink }}
           echo "${{ env.gmxmd5hash }}  gromacs_src.tar.gz" | md5sum -c
           tar xf gromacs_src.tar.gz
-          curl -Lfo "gromacs-${{ env.gmxversion }}/cmake/gmxManageNvccConfig.cmake" 'https://github.com/KaneGreen/GROMACS-Windows-Builder/raw/refs/heads/master/cmake/gmxManageNvccConfig.cmake'
-          sed -i '/gmxManageCcache/aset(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")' "gromacs-${{ env.gmxversion }}/CMakeLists.txt"
           curl -Lfo fftw_src.tar.gz ${{ env.fftwlink }}
           echo "${{ env.fftwmd5hash }}  fftw_src.tar.gz" | md5sum -c
           tar xf fftw_src.tar.gz
