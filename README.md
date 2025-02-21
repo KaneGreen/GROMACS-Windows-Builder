@@ -15,4 +15,4 @@ Including both single (`gmx.exe`) and double precision (`gmx_d.exe`) versions.
 
 ## GPU version
 [![build_cuda](https://github.com/KaneGreen/GROMACS-Windows-Builder/actions/workflows/build_cuda.yml/badge.svg)](https://github.com/KaneGreen/GROMACS-Windows-Builder/actions/workflows/build_cuda.yml)  
-Single precision version only. Nvidia drivers that support Nvidia CUDA 12.6.3 or higher are required.
+Single precision version only. Nvidia Windows driver (version 561.17 or higher) which supports Nvidia CUDA 12.6.3 or higher are required.
