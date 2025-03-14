@@ -1,11 +1,11 @@
 # GROMACS binary builds for Windows x64
 
-GROMACS version: 2025.0
+GROMACS version: 2025.1
 
 ## Overall
 - Target OS: Microsoft Windows 10 or 11 (64-bit).
 - Target CPU: x84_64 CPUs that support AVX2 instructions.
-- Bundled with [FFTW (3.3.10)](https://fftw.org), [OpenBLAS (0.3.28)](https://www.openblas.net/) and [hwloc](https://www.open-mpi.org/projects/hwloc/).
+- Bundled with [FFTW (3.3.10)](https://fftw.org), [OpenBLAS (0.3.29)](https://www.openblas.net/) and [hwloc](https://www.open-mpi.org/projects/hwloc/).
 - Compiled with OpenMP support, but without MPI support.
 - Extra force fields: [CHARMM36 (July 2022)](https://mackerell.umaryland.edu/charmm_ff.shtml#gromacs)
 

@@ -7,8 +7,8 @@ on:
   workflow_dispatch: {}
 
 env:
-  gmxversion: "2025.0"
-  gmxcompileto: C:/FOSS/gromacs_250
+  gmxversion: "2025.1"
+  gmxcompileto: C:/FOSS/gromacs_251
   fftwversion: "3.3.10"
   fftwcompileto: C:/FOSS/fftw3
 
@@ -56,17 +56,14 @@ jobs:
       - name: Download Gromacs and FFTW
         shell: bash
         env:
-          gmxdownloadlink: https://ftp.gromacs.org/gromacs/gromacs-2025.0.tar.gz
-          gmxmd5hash: "4e9f043fea964cb2b4dd72d6f39ea006"
+          gmxdownloadlink: https://ftp.gromacs.org/gromacs/gromacs-2025.1.tar.gz
+          gmxmd5hash: "16b1eea704c9912b17fc2e9eb6b86e60"
           fftwlink: https://fftw.org/fftw-3.3.10.tar.gz
           fftwmd5hash: "8ccbf6a5ea78a16dbc3e1306e234cc5c"
         run: |
           curl -Lfo gromacs_src.tar.gz ${{ env.gmxdownloadlink }}
           echo "${{ env.gmxmd5hash }}  gromacs_src.tar.gz" | md5sum -c
           tar xf gromacs_src.tar.gz
-          pushd gromacs-${{ env.gmxversion }}
-          curl -sSfL https://github.com/KaneGreen/GROMACS-Windows-Builder/raw/refs/heads/master/4969.patch | patch -p1
-          popd
           curl -Lfo fftw_src.tar.gz ${{ env.fftwlink }}
           echo "${{ env.fftwmd5hash }}  fftw_src.tar.gz" | md5sum -c
           tar xf fftw_src.tar.gz
