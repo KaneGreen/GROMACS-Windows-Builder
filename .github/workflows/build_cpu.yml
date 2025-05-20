@@ -7,8 +7,8 @@ on:
   workflow_dispatch: {}
 
 env:
-  gmxversion: "2025.1"
-  gmxcompileto: C:/FOSS/gromacs_251
+  gmxversion: "2025.2"
+  gmxcompileto: C:/FOSS/gromacs_252
   fftwversion: "3.3.10"
   fftwcompileto: C:/FOSS/fftw3
 
@@ -31,8 +31,8 @@ jobs:
       - name: Download Gromacs and FFTW
         shell: bash
         env:
-          gmxdownloadlink: https://ftp.gromacs.org/gromacs/gromacs-2025.1.tar.gz
-          gmxmd5hash: "16b1eea704c9912b17fc2e9eb6b86e60"
+          gmxdownloadlink: https://ftp.gromacs.org/gromacs/gromacs-2025.2.tar.gz
+          gmxmd5hash: "d7262d5e2a51995735860e71654629b2"
           fftwlink: https://fftw.org/fftw-3.3.10.tar.gz
           fftwmd5hash: "8ccbf6a5ea78a16dbc3e1306e234cc5c"
         run: |

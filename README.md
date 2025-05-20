@@ -1,6 +1,6 @@
 # GROMACS binary builds for Windows x64
 
-GROMACS version: 2025.1
+[GROMACS version](https://manual.gromacs.org/current/download.html): 2025.2
 
 ## Overall
 - Target OS: Microsoft Windows 10 or 11 (64-bit).
