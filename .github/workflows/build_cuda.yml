@@ -46,6 +46,7 @@ jobs:
         uses: Jimver/cuda-toolkit@v0.2.26
         with:
           cuda: "12.8.1"
+          use-github-cache: false
       
       - name: Copy BuildCustomizations
         shell: pwsh
