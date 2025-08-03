@@ -118,5 +118,5 @@ jobs:
         uses: actions/upload-artifact@v4
         if: ${{ success() }}
         with:
-          name: GROMACS-${{ env.gmxversion }}_GPU_Windows-AMD64-AVX2_CUDA1263_msvc
+          name: GROMACS-${{ env.gmxversion }}_GPU_Windows-AMD64-AVX2_CUDA1281_msvc
           path: ${{ env.gmxcompileto }}
