@@ -17,3 +17,6 @@ Including both single (`gmx.exe`) and double precision (`gmx_d.exe`) versions.
 [![build_cuda](https://github.com/KaneGreen/GROMACS-Windows-Builder/actions/workflows/build_cuda.yml/badge.svg)](https://github.com/KaneGreen/GROMACS-Windows-Builder/actions/workflows/build_cuda.yml)  
 Single precision version only.  
 Nvidia Windows driver (version 572.61 or higher) which supports Nvidia CUDA 12.8.1 or higher is required.
+
+## For those who fork this repository
+Compiling GROMACS with the MSVC toolchain is very time-consuming, so please **do not abuse GitHub Actions**.
