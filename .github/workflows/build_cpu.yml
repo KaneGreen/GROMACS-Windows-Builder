@@ -14,7 +14,7 @@ env:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2025
     if: github.event.repository.owner.id == github.event.sender.id
     steps:
       - name: Install OpenBLAS and hwloc

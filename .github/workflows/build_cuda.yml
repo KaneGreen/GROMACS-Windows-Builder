@@ -14,7 +14,7 @@ env:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2025
     if: github.event.repository.owner.id == github.event.sender.id
     steps:
       - name: Revert CMake version
@@ -25,7 +25,7 @@ jobs:
           Write-Output "CMake GUID Found: $selectapp"
           Start-Process -Wait -FilePath C:\Windows\System32\msiexec.exe -ArgumentList "/x","$selectapp","/qn"
           Write-Output "CMake uninstalled."
-          Invoke-WebRequest 'https://github.com/Kitware/CMake/releases/download/v3.30.8/cmake-3.30.8-windows-x86_64.msi' -OutFile cmake.msi
+          Invoke-WebRequest 'https://github.com/Kitware/CMake/releases/download/v3.30.9/cmake-3.30.9-windows-x86_64.msi' -OutFile cmake.msi
           Start-Process -Wait -FilePath C:\Windows\System32\msiexec.exe -ArgumentList "/i","cmake.msi","/qn"
           Write-Output "CMake installed."
           Remove-Item -Path cmake.msi -Force
