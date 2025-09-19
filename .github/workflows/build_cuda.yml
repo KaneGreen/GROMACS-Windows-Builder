@@ -66,6 +66,12 @@ jobs:
           Set-Location ..\..
           Remove-Item -Path fftw-${{ env.fftwversion }} -Force -Recurse
 
+      - name: Try to fix CMake Error
+        shell: bash
+        run: |
+          cd `cygpath "gromacs-${{ env.gmxversion }}"`
+          sed -i 's/find_package(OpenMP REQUIRED)/find_package(OpenMP REQUIRED COMPONENTS CXX)/g' src/external/muparser/CMakeLists.txt
+
       - name: Compile GROMACS CUDA
         shell: pwsh
         run: |
