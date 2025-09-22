@@ -26,7 +26,7 @@ jobs:
           vcpkg new --application
           vcpkg add port openblas[threads]
           vcpkg add port hwloc
-          vcpkg install
+          vcpkg install --triplet x64-windows-clang
 
       - name: Download Gromacs and FFTW
         shell: bash
@@ -49,8 +49,8 @@ jobs:
           Set-Location fftw-${{ env.fftwversion }} 
           New-Item -ItemType Directory -Name build
           Set-Location build
-          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.fftwcompileto }}" "-DENABLE_AVX=ON" "-DENABLE_AVX2=ON" "-DENABLE_SSE2=ON" "-DENABLE_THREADS=ON" "-DWITH_COMBINED_THREADS=ON" "-DBUILD_SHARED_LIBS=ON" -G "Visual Studio 17 2022" -A "x64"
-          cmake --build . --target INSTALL --config Release -- "-maxCpuCount" "-p:CL_MPCount=3"
+          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.fftwcompileto }}" "-DENABLE_AVX=ON" "-DENABLE_AVX2=ON" "-DENABLE_SSE2=ON" "-DENABLE_THREADS=ON" "-DWITH_COMBINED_THREADS=ON" "-DBUILD_SHARED_LIBS=ON" -G "Visual Studio 17 2022" -A "x64" -T "ClangCL"
+          cmake --build . --target INSTALL --config Release
           Set-Location ..\..
           Remove-Item -Path fftw-${{ env.fftwversion }} -Force -Recurse
 
@@ -65,8 +65,8 @@ jobs:
           Set-Location fftw-${{ env.fftwversion }} 
           New-Item -ItemType Directory -Name build
           Set-Location build
-          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.fftwcompileto }}" "-DENABLE_AVX=ON" "-DENABLE_AVX2=ON" "-DENABLE_SSE2=ON" "-DENABLE_THREADS=ON" "-DWITH_COMBINED_THREADS=ON" "-DENABLE_FLOAT=ON" "-DBUILD_SHARED_LIBS=ON" -G "Visual Studio 17 2022" -A "x64"
-          cmake --build . --target INSTALL --config Release -- "-maxCpuCount" "-p:CL_MPCount=3"
+          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.fftwcompileto }}" "-DENABLE_AVX=ON" "-DENABLE_AVX2=ON" "-DENABLE_SSE2=ON" "-DENABLE_THREADS=ON" "-DWITH_COMBINED_THREADS=ON" "-DENABLE_FLOAT=ON" "-DBUILD_SHARED_LIBS=ON" -G "Visual Studio 17 2022" -A "x64" -T "ClangCL"
+          cmake --build . --target INSTALL --config Release
           Set-Location ..\..
           Remove-Item -Path fftw-${{ env.fftwversion }} -Force -Recurse
 
@@ -76,8 +76,8 @@ jobs:
           Set-Location gromacs-${{ env.gmxversion }}
           New-Item -ItemType Directory -Name build
           Set-Location build
-          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.fftwcompileto }};C:/FOSS/OpenBLAS/vcpkg_installed/x64-windows" "-DGMX_SIMD=AVX2_256" "-DGMX_DOUBLE=on" "-DGMX_HWLOC=ON" -G "Visual Studio 17 2022" -A "x64"
-          cmake --build . --target INSTALL --config Release -- "-maxCpuCount" "-p:CL_MPCount=3"
+          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.fftwcompileto }};C:/FOSS/OpenBLAS/vcpkg_installed/x64-windows" "-DGMX_SIMD=AVX2_256" "-DGMX_DOUBLE=on" "-DGMX_HWLOC=ON" -G "Visual Studio 17 2022" -A "x64" -T "ClangCL"
+          cmake --build . --target INSTALL --config Release
           Set-Location ..\..
           Remove-Item -Path gromacs-${{ env.gmxversion }} -Force -Recurse
 
@@ -92,8 +92,8 @@ jobs:
           Set-Location gromacs-${{ env.gmxversion }}
           New-Item -ItemType Directory -Name build
           Set-Location build
-          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.fftwcompileto }};C:/FOSS/OpenBLAS/vcpkg_installed/x64-windows" "-DGMX_SIMD=AVX2_256" "-DGMX_HWLOC=ON" -G "Visual Studio 17 2022" -A "x64"
-          cmake --build . --target INSTALL --config Release -- "-maxCpuCount" "-p:CL_MPCount=3"
+          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.fftwcompileto }};C:/FOSS/OpenBLAS/vcpkg_installed/x64-windows" "-DGMX_SIMD=AVX2_256" "-DGMX_HWLOC=ON" -G "Visual Studio 17 2022" -A "x64" -T "ClangCL"
+          cmake --build . --target INSTALL --config Release
           Set-Location ..\..
           Remove-Item -Path gromacs-${{ env.gmxversion }} -Force -Recurse
 
