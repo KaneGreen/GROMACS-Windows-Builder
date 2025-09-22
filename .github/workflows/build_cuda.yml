@@ -93,11 +93,11 @@ jobs:
         shell: bash
         run: |
           cd `cygpath "${{ env.gmxcompileto }}"/share/gromacs/top`
-          curl -LO --insecure 'https://mackerell.umaryland.edu/download.php?filename=CHARMM_ff_params_files/charmm36-jul2022.ff.tgz'
+          curl -Lo 'charmm36-jul2022.ff.tgz' --insecure 'https://mackerell.umaryland.edu/download.php?filename=CHARMM_ff_params_files/charmm36-jul2022.ff.tgz'
           echo '9f31db8502852bc8fcf36497c27db14f1b6509b33701e7cafc2187840b7d2f09  charmm36-jul2022.ff.tgz' | sha256sum -c
           tar -x --ungzip -f charmm36-jul2022.ff.tgz
           sed -i '1cCHARMM36 all-atom force field (July 2022)' charmm36-jul2022.ff/forcefield.doc
-          curl -LO --insecure 'https://mackerell.umaryland.edu/download.php?filename=CHARMM_ff_params_files/charmm36_ljpme-jul2022.ff.tgz'
+          curl -Lo 'charmm36_ljpme-jul2022.ff.tgz' --insecure 'https://mackerell.umaryland.edu/download.php?filename=CHARMM_ff_params_files/charmm36_ljpme-jul2022.ff.tgz'
           echo '87f95a03b83d57e6b1965eb4ab798136bc7b78270f8fb85a77f82596d496c15c  charmm36_ljpme-jul2022.ff.tgz' | sha256sum -c
           tar -x --ungzip -f charmm36_ljpme-jul2022.ff.tgz
           sed -i '1cCHARMM36 LJ-PME all-atom force field (July 2022)' charmm36_ljpme-jul2022.ff/forcefield.doc
