@@ -48,9 +48,8 @@ jobs:
           Set-Location gromacs-${{ env.gmxversion }}
           New-Item -ItemType Directory -Name build
           Set-Location build
-          cmake -G Ninja -DCMAKE_BUILD_TYPE=Release "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.dependpath }}"  "-DGMX_DOUBLE=on" "-DGMX_SIMD=AVX2_256" "-DGMX_HWLOC=ON" ..
-          cmake --build .
-          cmake --install .
+          cmake -G "Visual Studio 17 2022" -A x64 "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.dependpath }}"  "-DGMX_DOUBLE=on" "-DGMX_SIMD=AVX2_256" "-DGMX_HWLOC=ON" ..
+          cmake --build . --target INSTALL --config Release
           Set-Location ..\..
           Remove-Item -Path gromacs-${{ env.gmxversion }} -Force -Recurse
 
@@ -65,9 +64,8 @@ jobs:
           Set-Location gromacs-${{ env.gmxversion }}
           New-Item -ItemType Directory -Name build
           Set-Location build
-          cmake -G Ninja -DCMAKE_BUILD_TYPE=Release "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.dependpath }}" "-DGMX_SIMD=AVX2_256" "-DGMX_HWLOC=ON" ..
-          cmake --build .
-          cmake --install .
+          cmake -G "Visual Studio 17 2022" -A x64 "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.dependpath }}" "-DGMX_SIMD=AVX2_256" "-DGMX_HWLOC=ON" ..
+          cmake --build . --target INSTALL --config Release
           Set-Location ..\..
           Remove-Item -Path gromacs-${{ env.gmxversion }} -Force -Recurse
 
