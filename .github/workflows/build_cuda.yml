@@ -9,24 +9,28 @@ on:
 env:
   gmxversion: "2025.3"
   gmxcompileto: C:/FOSS/gromacs_253
-  fftwversion: "3.3.10"
-  fftwcompileto: C:/FOSS/fftw3
+  dependhome: C:\FOSS\Dependencies
+  dependpath: C:/FOSS/Dependencies/vcpkg_installed/x64-windows
 
 jobs:
   build:
     runs-on: windows-2025
     if: github.event.repository.owner.id == github.event.sender.id
     steps:
-      - name: Install OpenBLAS and hwloc
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install FFTW, hwloc, CLAPACK, OpenBLAS
         shell: pwsh
         run: |
-          New-Item -ItemType Directory -Name FOSS -Path C:\
-          New-Item -ItemType Directory -Name OpenBLAS -Path C:\FOSS
-          Set-Location C:\FOSS\OpenBLAS
+          New-Item -ItemType Directory -Force ${{ env.dependhome }}
+          Set-Location ${{ env.dependhome }}
           vcpkg new --application
-          vcpkg add port openblas[threads]
+          vcpkg add port clapack
+          vcpkg add port fftw3[avx2,threads]
           vcpkg add port hwloc
-          vcpkg install
+          vcpkg add port openblas[threads]
+          vcpkg install --overlay-ports=${{ github.workspace }}\vcpkg_overlay
 
       - name: Install CUDA Toolkit
         id: cuda-toolkit
@@ -40,33 +44,18 @@ jobs:
           Copy-Item -Path "${{ steps.cuda-toolkit.outputs.CUDA_PATH }}\extras\visual_studio_integration\MSBuildExtensions\*" -Destination "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Microsoft\VC\v170\BuildCustomizations\" -Force
           Copy-Item -Path "${{ steps.cuda-toolkit.outputs.CUDA_PATH }}\extras\visual_studio_integration\MSBuildExtensions\*" -Destination "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Microsoft\VC\v160\BuildCustomizations\" -Force
 
-      - name: Download Gromacs and FFTW
+      - name: Download Gromacs
         shell: bash
         env:
           gmxdownloadlink: https://ftp.gromacs.org/gromacs/gromacs-2025.3.tar.gz
           gmxmd5hash: "5a2315b6f6e13b091bbbbfddee9eb62b"
-          fftwlink: https://fftw.org/fftw-3.3.10.tar.gz
-          fftwmd5hash: "8ccbf6a5ea78a16dbc3e1306e234cc5c"
         run: |
           curl -Lfo gromacs_src.tar.gz ${{ env.gmxdownloadlink }}
           echo "${{ env.gmxmd5hash }}  gromacs_src.tar.gz" | md5sum -c
           tar xf gromacs_src.tar.gz
-          curl -Lfo fftw_src.tar.gz ${{ env.fftwlink }}
-          echo "${{ env.fftwmd5hash }}  fftw_src.tar.gz" | md5sum -c
-          tar xf fftw_src.tar.gz
-
-      - name: Compile FFTW single precision
-        shell: pwsh
-        run: |
-          Set-Location fftw-${{ env.fftwversion }} 
-          New-Item -ItemType Directory -Name build
-          Set-Location build
-          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.fftwcompileto }}" "-DENABLE_AVX=ON" "-DENABLE_AVX2=ON" "-DENABLE_SSE2=ON" "-DENABLE_THREADS=ON" "-DWITH_COMBINED_THREADS=ON" "-DENABLE_FLOAT=ON" "-DBUILD_SHARED_LIBS=ON" -G "Visual Studio 17 2022" -A "x64"
-          cmake --build . --target INSTALL --config Release -- "-maxCpuCount" "-p:CL_MPCount=3"
-          Set-Location ..\..
-          Remove-Item -Path fftw-${{ env.fftwversion }} -Force -Recurse
 
       - name: Try to fix CMake Error
+        if: env.gmxversion == '2025.3'
         shell: bash
         run: |
           cd `cygpath "gromacs-${{ env.gmxversion }}"`
@@ -78,8 +67,9 @@ jobs:
           Set-Location gromacs-${{ env.gmxversion }}
           New-Item -ItemType Directory -Name build
           Set-Location build
-          cmake .. "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.fftwcompileto }};C:/FOSS/OpenBLAS/vcpkg_installed/x64-windows" "-DGMX_SIMD=AVX2_256" "-DGMX_GPU=CUDA" "-DGMX_HWLOC=ON" -G "Visual Studio 17 2022" -A "x64"
-          cmake --build . --target INSTALL --config Release -- "-maxCpuCount" "-p:CL_MPCount=3"
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Release "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.dependpath }}" "-DGMX_GPU=CUDA" "-DGMX_SIMD=AVX2_256" "-DGMX_HWLOC=ON" ..
+          cmake --build .
+          cmake --install .
           Set-Location ..\..
           Remove-Item -Path gromacs-${{ env.gmxversion }} -Force -Recurse
 
@@ -106,10 +96,10 @@ jobs:
       - name: Copy DLLs and Test
         shell: pwsh
         run: |
-          Copy-Item -Path "${{ steps.cuda-toolkit.outputs.CUDA_PATH }}\bin\cufft64_*.dll" -Destination "${{ env.gmxcompileto }}\bin\" -Force
-          Copy-Item -Path "${{ env.fftwcompileto }}\bin\*.dll" -Destination "${{ env.gmxcompileto }}\bin\" -Force
-          Copy-Item -Path C:\FOSS\OpenBLAS\vcpkg_installed\x64-windows\bin\*.dll -Destination "${{ env.gmxcompileto }}\bin\" -Force
+          Copy-Item -Force -Path "${{ steps.cuda-toolkit.outputs.CUDA_PATH }}\bin\cufft64_*.dll" -Destination "${{ env.gmxcompileto }}\bin\"
+          Copy-Item -Force -Path "${{ env.dependpath }}\bin\*.dll" -Destination "${{ env.gmxcompileto }}\bin\"
           Set-Location ${{ env.gmxcompileto }}\bin
+          Remove-Item -Force -Path fftw3l.dll,fftw3.dll
           .\gmx.exe -version
 
       - name: Upload Firmwares

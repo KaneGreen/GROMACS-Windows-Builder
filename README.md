@@ -5,7 +5,7 @@
 ## Overall
 - Target OS: Microsoft Windows 10 or 11 (64-bit).
 - Target CPU: x84_64 CPUs that support AVX2 instructions.
-- Bundled with [FFTW (3.3.10)](https://fftw.org), [OpenBLAS (0.3.29)](https://www.openblas.net/) and [hwloc](https://www.open-mpi.org/projects/hwloc/).
+- Bundled with [FFTW (3.3.10)](https://fftw.org), [OpenBLAS (0.3.30)](https://www.openblas.net/), [CLAPACK (3.2.1)](https://www.netlib.org/clapack/) and [hwloc (2.12.2)](https://www.open-mpi.org/projects/hwloc/).
 - Compiled with OpenMP support, but without MPI support.
 - Extra force fields: [CHARMM36 (July 2022)](https://mackerell.umaryland.edu/charmm_ff.shtml#gromacs)
 
