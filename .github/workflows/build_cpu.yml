@@ -26,7 +26,6 @@ jobs:
           New-Item -ItemType Directory -Force ${{ env.dependhome }}
           Set-Location ${{ env.dependhome }}
           vcpkg new --application
-          vcpkg add port clapack
           vcpkg add port fftw3[avx2,threads]
           vcpkg add port hwloc
           vcpkg add port openblas[threads]
