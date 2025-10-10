@@ -55,7 +55,6 @@ vcpkg_cmake_configure(
         ${OPTIONS}
         "-DCMAKE_PROJECT_INCLUDE=${CURRENT_PORT_DIR}/cmake-project-include.cmake"
         -DBUILD_TESTING=OFF
-        -DBUILD_WITHOUT_LAPACK=ON
         -DNOFORTRAN=ON
     MAYBE_UNUSED_VARIABLES
         GETARCH_BINARY_DIR
