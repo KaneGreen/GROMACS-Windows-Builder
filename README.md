@@ -22,6 +22,7 @@ Nvidia Windows driver (version 572.61 or higher) which supports Nvidia CUDA 12.8
 The following unmerged PRs of vcpkg registry are introduced to improve the dependency versions:
 * OpenBLAS: https://github.com/microsoft/vcpkg/pull/46118
 * hwloc: https://github.com/microsoft/vcpkg/pull/47719
+* The flag `-DBUILD_TESTING=OFF` has been removed from OpenBLAS.
 
 ## For those who fork this repository
 Compiling GROMACS with the MSVC toolchain is very time-consuming, so please **do not abuse GitHub Actions**.
