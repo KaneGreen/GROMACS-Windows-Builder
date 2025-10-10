@@ -74,6 +74,7 @@ jobs:
       - name: Checksum
         shell: bash
         run: |
+          echo "BUILDDATE=$(date '+%b%d')" >> $GITHUB_ENV
           cd `cygpath "${{ env.gmxcompileto }}"/bin`
           sha256sum gmx.exe | tee gmx.exe.sha256
 
@@ -104,5 +105,5 @@ jobs:
         uses: actions/upload-artifact@v4
         if: ${{ success() }}
         with:
-          name: GROMACS-${{ env.gmxversion }}_GPU_Windows-AMD64-AVX2_CUDA1281_msvc
+          name: GROMACS-${{ env.gmxversion }}_${{ env.BUILDDATE }}_GPU_Windows-AMD64-AVX2_CUDA1281_msvc
           path: ${{ env.gmxcompileto }}
