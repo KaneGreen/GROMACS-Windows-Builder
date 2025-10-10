@@ -18,7 +18,8 @@ Including both single (`gmx.exe`) and double precision (`gmx_d.exe`) versions.
 Single precision version only.  
 Nvidia Windows driver (version 572.61 or higher) which supports Nvidia CUDA 12.8.1 or higher is required.
 
-## Patch
+## Patches
+The following unmerged PRs of vcpkg registry are introduced to improve the dependency versions:
 * OpenBLAS: https://github.com/microsoft/vcpkg/pull/46118
 * hwloc: https://github.com/microsoft/vcpkg/pull/47719
 

@@ -1,8 +1,8 @@
 diff --git a/configure.ac b/configure.ac
-index d28b781..4c5478e 100644
+index 8af26ec..0d52b00 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -128,6 +128,8 @@ AS_IF([test "$enable_embedded_mode" != "yes"],
+@@ -127,6 +127,8 @@ AS_IF([test "$enable_embedded_mode" != "yes"],
  ####################################################################
  
  AC_SUBST([libhwloc_so_version])

@@ -20,13 +20,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Install FFTW, hwloc, CLAPACK, OpenBLAS
+      - name: Install FFTW, hwloc, OpenBLAS
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force ${{ env.dependhome }}
           Set-Location ${{ env.dependhome }}
           vcpkg new --application
-          vcpkg add port lapack
           vcpkg add port fftw3[avx2,threads]
           vcpkg add port hwloc
           vcpkg add port openblas[threads]
