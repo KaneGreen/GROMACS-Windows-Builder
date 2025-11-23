@@ -7,8 +7,8 @@ on:
   workflow_dispatch: {}
 
 env:
-  gmxversion: "2025.3"
-  gmxcompileto: C:/FOSS/gromacs_253
+  gmxversion: "2025.4"
+  gmxcompileto: C:/FOSS/gromacs_254
   dependhome: C:\FOSS\Dependencies
   dependpath: C:/FOSS/Dependencies/vcpkg_installed/x64-windows
 
@@ -34,8 +34,8 @@ jobs:
       - name: Download Gromacs
         shell: bash
         env:
-          gmxdownloadlink: https://ftp.gromacs.org/gromacs/gromacs-2025.3.tar.gz
-          gmxmd5hash: "5a2315b6f6e13b091bbbbfddee9eb62b"
+          gmxdownloadlink: https://ftp.gromacs.org/gromacs/gromacs-2025.4.tar.gz
+          gmxmd5hash: "733448146f1f0555c9fd8d7a5d14ac7b"
         run: |
           curl -Lfo gromacs_src.tar.gz ${{ env.gmxdownloadlink }}
           echo "${{ env.gmxmd5hash }}  gromacs_src.tar.gz" | md5sum -c
