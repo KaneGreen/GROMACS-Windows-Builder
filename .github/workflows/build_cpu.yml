@@ -18,7 +18,7 @@ jobs:
     if: github.event.repository.owner.id == github.event.sender.id
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Install FFTW, hwloc, OpenBLAS
         shell: pwsh
@@ -100,7 +100,7 @@ jobs:
           .\gmx_d.exe -version
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: ${{ success() }}
         with:
           name: GROMACS-${{ env.gmxversion }}_${{ env.BUILDDATE }}_CPU_Windows-AMD64-AVX2_msvc
