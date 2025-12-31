@@ -33,7 +33,7 @@ jobs:
 
       - name: Install CUDA Toolkit
         id: cuda-toolkit
-        uses: Jimver/cuda-toolkit@v0.2.29
+        uses: Jimver/cuda-toolkit@v0.2.30
         with:
           cuda: "12.8.1"
       
@@ -95,7 +95,7 @@ jobs:
           .\gmx.exe -version
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: ${{ success() }}
         with:
           name: GROMACS-${{ env.gmxversion }}_${{ env.BUILDDATE }}_GPU_Windows-AMD64-AVX2_CUDA1281_msvc

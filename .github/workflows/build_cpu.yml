@@ -100,7 +100,7 @@ jobs:
           .\gmx_d.exe -version
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: ${{ success() }}
         with:
           name: GROMACS-${{ env.gmxversion }}_${{ env.BUILDDATE }}_CPU_Windows-AMD64-AVX2_msvc
