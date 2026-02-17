@@ -5,7 +5,7 @@
 ## Overall
 - Target OS: Microsoft Windows 10 or 11 (64-bit).
 - Target CPU: x84_64 CPUs that support AVX2 instructions.
-- Bundled with [FFTW (3.3.10)](https://fftw.org), [OpenBLAS (0.3.30)](https://www.openblas.net/) and [hwloc (2.12.2)](https://www.open-mpi.org/projects/hwloc/).
+- Bundled with [FFTW (3.3.10)](https://fftw.org), [OpenBLAS (0.3.31)](https://www.openblas.net/) and [hwloc (2.12.2)](https://www.open-mpi.org/projects/hwloc/).
 - Compiled with OpenMP support, but without MPI support.
 - Extra force fields: [CHARMM36 (July 2022)](https://mackerell.umaryland.edu/charmm_ff.shtml#gromacs)
 
@@ -20,7 +20,7 @@ Nvidia Windows driver (version 572.61 or higher) which supports Nvidia CUDA 12.8
 
 ## Patches
 The following unmerged PRs of vcpkg registry are introduced to improve the dependency versions:
-* OpenBLAS: https://github.com/microsoft/vcpkg/pull/46118
+* OpenBLAS: https://github.com/microsoft/vcpkg/pull/49481
 * hwloc: https://github.com/microsoft/vcpkg/pull/47719
 * The flag `-DBUILD_WITHOUT_LAPACK=ON` has been removed from OpenBLAS.
 
