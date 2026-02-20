@@ -95,7 +95,7 @@ jobs:
           Copy-Item -Force -Path "${{ env.dependpath }}\bin\*.dll" -Destination "${{ env.gmxcompileto }}\bin\"
           Set-Location ${{ env.gmxcompileto }}\bin
           Remove-Item -Force -Path fftw3l.dll,fftw3.dll
-          .\gmx.exe -version
+          #.\gmx.exe -version
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v6
