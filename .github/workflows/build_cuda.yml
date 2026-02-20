@@ -20,6 +20,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Update CMake version
+        shell: pwsh
+        run: |
+          $selectapp = Get-ItemProperty 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*' | Where-Object DisplayName -eq 'CMake'
+          $selectapp = $selectapp.UninstallString.Split("/X")[-1]
+          Write-Output "CMake GUID Found: $selectapp"
+          Start-Process -Wait -FilePath C:\Windows\System32\msiexec.exe -ArgumentList "/x","$selectapp","/qn"
+          Write-Output "CMake uninstalled."
+          Invoke-WebRequest 'https://github.com/Kitware/CMake/releases/download/v4.3.0-rc1/cmake-4.3.0-rc1-windows-x86_64.msi' -OutFile cmake.msi
+          Start-Process -Wait -FilePath C:\Windows\System32\msiexec.exe -ArgumentList "/i","cmake.msi","/qn"
+          Write-Output "CMake installed."
+          Remove-Item -Path cmake.msi -Force
+
       - name: Install FFTW, hwloc, OpenBLAS
         shell: pwsh
         run: |
