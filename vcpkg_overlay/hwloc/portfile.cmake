@@ -2,7 +2,7 @@ vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO open-mpi/hwloc
     REF "hwloc-${VERSION}"
-    SHA512 e989b852a96bbe5d567e8a84b022ecd91a8b7577d211e2d4403938d1cc285f2ee4653bfbb952201481b904eb24d59a97cf71147acedb65d8f675f69798622b86
+    SHA512 d9634d245c678c525aa55e89da6ae9406f05329958047fff55bdbd58bf2ada29d21800892b771064ad8140af20430d6d0f63e24b819b57730b47b255a3787f87
     PATCHES
         fix_shared_win_build.patch
         stdout_fileno.patch
