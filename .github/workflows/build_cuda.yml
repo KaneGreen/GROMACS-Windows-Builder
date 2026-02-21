@@ -20,16 +20,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Install FFTW, hwloc, OpenBLAS
-        shell: pwsh
-        run: |
-          New-Item -ItemType Directory -Force ${{ env.dependhome }}
-          Set-Location ${{ env.dependhome }}
-          vcpkg new --application
-          vcpkg add port fftw3[avx2,threads]
-          vcpkg add port hwloc
-          vcpkg add port openblas[threads]
-          vcpkg install --overlay-ports=${{ github.workspace }}\vcpkg_overlay
+      #- name: Install FFTW, hwloc, OpenBLAS
+      #  shell: pwsh
+      #  run: |
+      #    New-Item -ItemType Directory -Force ${{ env.dependhome }}
+      #    Set-Location ${{ env.dependhome }}
+      #    vcpkg new --application
+      #    vcpkg add port fftw3[avx2,threads]
+      #    vcpkg add port hwloc
+      #    vcpkg add port openblas[threads]
+      #    vcpkg install --overlay-ports=${{ github.workspace }}\vcpkg_overlay
 
       - name: Install CUDA Toolkit
         id: cuda-toolkit
@@ -42,6 +42,8 @@ jobs:
         run: |
           Copy-Item -Path "${{ steps.cuda-toolkit.outputs.CUDA_PATH }}\extras\visual_studio_integration\MSBuildExtensions\*" -Destination "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Microsoft\VC\v170\BuildCustomizations\" -Force
           Copy-Item -Path "${{ steps.cuda-toolkit.outputs.CUDA_PATH }}\extras\visual_studio_integration\MSBuildExtensions\*" -Destination "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Microsoft\VC\v160\BuildCustomizations\" -Force
+          Set-Location "${{ steps.cuda-toolkit.outputs.CUDA_PATH }}"
+          tree /F
 
       - name: Download Gromacs
         shell: bash
