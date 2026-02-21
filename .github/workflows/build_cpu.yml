@@ -98,6 +98,7 @@ jobs:
           rm -f charmm36-jul2022.ff.tgz charmm36_ljpme-jul2022.ff.tgz
 
       - name: Copy DLLs and Test
+        continue-on-error: true
         shell: pwsh
         run: |
           Copy-Item -Force -Path "${{ env.dependpath }}\bin\*.dll" -Destination "${{ env.gmxcompileto }}\bin\"

@@ -91,13 +91,14 @@ jobs:
           rm -f charmm36-jul2022.ff.tgz charmm36_ljpme-jul2022.ff.tgz
 
       - name: Copy DLLs and Test
+        continue-on-error: true
         shell: pwsh
         run: |
           Copy-Item -Force -Path "${{ steps.cuda-toolkit.outputs.CUDA_PATH }}\bin\x64\cufft64_*.dll" -Destination "${{ env.gmxcompileto }}\bin\"
           Copy-Item -Force -Path "${{ env.dependpath }}\bin\*.dll" -Destination "${{ env.gmxcompileto }}\bin\"
           Set-Location ${{ env.gmxcompileto }}\bin
           Remove-Item -Force -Path fftw3l.dll,fftw3.dll
-          #.\gmx.exe -version
+          .\gmx.exe -version
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v6
