@@ -9,7 +9,7 @@ on:
 env:
   gmxversion: "2026.0"
   gmxcompileto: C:/FOSS/gromacs_260
-  dependhome: C:\FOSS\Dependencies
+  dependhome: C:/FOSS/Dependencies
   dependpath: C:/FOSS/Dependencies/vcpkg_installed/x64-windows
 
 jobs:
@@ -20,16 +20,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      #- name: Install FFTW, hwloc, OpenBLAS
-      #  shell: pwsh
-      #  run: |
-      #    New-Item -ItemType Directory -Force ${{ env.dependhome }}
-      #    Set-Location ${{ env.dependhome }}
-      #    vcpkg new --application
-      #    vcpkg add port fftw3[avx2,threads]
-      #    vcpkg add port hwloc
-      #    vcpkg add port openblas[threads]
-      #    vcpkg install --overlay-ports=${{ github.workspace }}\vcpkg_overlay
+      - name: Install FFTW, hwloc, OpenBLAS
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force ${{ env.dependhome }}
+          Set-Location ${{ env.dependhome }}
+          vcpkg new --application
+          vcpkg add port fftw3[avx2,threads]
+          vcpkg add port hwloc
+          vcpkg add port openblas[threads]
+          vcpkg install --overlay-ports=${{ github.workspace }}\vcpkg_overlay
+          Get-ChildItem "${{ env.dependpath }}\bin"
 
       - name: Install CUDA Toolkit
         id: cuda-toolkit
@@ -42,8 +43,7 @@ jobs:
         run: |
           Copy-Item -Path "${{ steps.cuda-toolkit.outputs.CUDA_PATH }}\extras\visual_studio_integration\MSBuildExtensions\*" -Destination "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Microsoft\VC\v170\BuildCustomizations\" -Force
           Copy-Item -Path "${{ steps.cuda-toolkit.outputs.CUDA_PATH }}\extras\visual_studio_integration\MSBuildExtensions\*" -Destination "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Microsoft\VC\v160\BuildCustomizations\" -Force
-          Set-Location "${{ steps.cuda-toolkit.outputs.CUDA_PATH }}"
-          tree /F
+          Get-ChildItem "${{ steps.cuda-toolkit.outputs.CUDA_PATH }}\bin\x64"
 
       - name: Download Gromacs
         shell: bash
@@ -93,7 +93,7 @@ jobs:
       - name: Copy DLLs and Test
         shell: pwsh
         run: |
-          Copy-Item -Force -Path "${{ steps.cuda-toolkit.outputs.CUDA_PATH }}\bin\cufft64_*.dll" -Destination "${{ env.gmxcompileto }}\bin\"
+          Copy-Item -Force -Path "${{ steps.cuda-toolkit.outputs.CUDA_PATH }}\bin\x64\cufft64_*.dll" -Destination "${{ env.gmxcompileto }}\bin\"
           Copy-Item -Force -Path "${{ env.dependpath }}\bin\*.dll" -Destination "${{ env.gmxcompileto }}\bin\"
           Set-Location ${{ env.gmxcompileto }}\bin
           Remove-Item -Force -Path fftw3l.dll,fftw3.dll

@@ -9,7 +9,7 @@ on:
 env:
   gmxversion: "2026.0"
   gmxcompileto: C:/FOSS/gromacs_260
-  dependhome: C:\FOSS\Dependencies
+  dependhome: C:/FOSS/Dependencies
   dependpath: C:/FOSS/Dependencies/vcpkg_installed/x64-windows
 
 jobs:
@@ -30,6 +30,7 @@ jobs:
           vcpkg add port hwloc
           vcpkg add port openblas[threads]
           vcpkg install --overlay-ports=${{ github.workspace }}\vcpkg_overlay
+          Get-ChildItem "${{ env.dependpath }}\bin"
 
       - name: Download Gromacs
         shell: bash
