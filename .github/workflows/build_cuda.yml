@@ -101,7 +101,7 @@ jobs:
           .\gmx.exe -version
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         if: ${{ success() }}
         with:
           name: GROMACS-${{ env.gmxversion }}_${{ env.BUILDDATE }}_GPU_Windows-AMD64-AVX2_CUDA1310_msvc
