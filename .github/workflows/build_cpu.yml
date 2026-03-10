@@ -36,7 +36,7 @@ jobs:
         shell: bash
         env:
           gmxdownloadlink: https://ftp.gromacs.org/gromacs/gromacs-2026.1.tar.gz
-          gmxmd5hash: "7e302966322e9977f8ab18373ec01558"
+          gmxmd5hash: "5e67383cea1093de10d89b807c448733"
         run: |
           curl -Lfo gromacs_src.tar.gz ${{ env.gmxdownloadlink }}
           echo "${{ env.gmxmd5hash }}  gromacs_src.tar.gz" | md5sum -c
