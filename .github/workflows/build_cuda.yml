@@ -7,8 +7,8 @@ on:
   workflow_dispatch: {}
 
 env:
-  gmxversion: "2026.2"
-  gmxcompileto: C:/FOSS/gromacs_262
+  gmxversion: "2026.3"
+  gmxcompileto: C:/FOSS/gromacs_263
   dependhome: C:/FOSS/Dependencies
   dependpath: C:/FOSS/Dependencies/vcpkg_installed/x64-windows
 
@@ -18,7 +18,7 @@ jobs:
     if: github.event.repository.owner.id == github.event.sender.id
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Install FFTW, hwloc, OpenBLAS
         shell: pwsh
@@ -48,18 +48,12 @@ jobs:
       - name: Download Gromacs
         shell: bash
         env:
-          gmxdownloadlink: https://ftp.gromacs.org/gromacs/gromacs-2026.2.tar.gz
-          gmxmd5hash: "74c859cb7f53919f9c7760c287b43323"
+          gmxdownloadlink: https://ftp.gromacs.org/gromacs/gromacs-2026.3.tar.gz
+          gmxmd5hash: "7987af0c6ab939ab6e639f32d0dd260f"
         run: |
           curl --retry 10 -Lfo gromacs_src.tar.gz ${{ env.gmxdownloadlink }}
           echo "${{ env.gmxmd5hash }}  gromacs_src.tar.gz" | md5sum -c
           tar xf gromacs_src.tar.gz
-
-      - name: Patch CUDA CMake
-        shell: bash
-        run: |
-          cd gromacs-${{ env.gmxversion }}
-          sed -i '/option(GMX_CLANG_CUDA/aset(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xcompiler=/Zc:preprocessor")' cmake/gmxManageCuda.cmake
 
       - name: Compile GROMACS CUDA
         shell: cmd
