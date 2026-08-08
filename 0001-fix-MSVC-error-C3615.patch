@@ -1,0 +1,33 @@
+From a68cd274756e29b0f134b72fd55f7145705f2bec Mon Sep 17 00:00:00 2001
+From: Kane Green <737445366KG@Gmail.com>
+Date: Thu, 1 Jan 1970 08:00:00 +0000
+Subject: [PATCH] fix MSVC error C3615
+
+---
+ src/gromacs/random/threefry.h | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
+
+diff --git a/src/gromacs/random/threefry.h b/src/gromacs/random/threefry.h
+index d7768645e1..d2fca91243 100644
+--- a/src/gromacs/random/threefry.h
++++ b/src/gromacs/random/threefry.h
+@@ -591,17 +591,7 @@ private:
+ 
+ public:
+     //! \brief Smallest value that can be returned from random engine.
+-#if !defined(_MSC_VER)
+-    static constexpr
+-#else
+-    // Avoid constexpr bug in MSVC 2015, note that max() below does work
+-    static
+-#endif
+-            result_type
+-            min()
+-    {
+-        return std::numeric_limits<result_type>::min();
+-    }
++    static constexpr result_type min() { return std::numeric_limits<result_type>::min(); }
+ 
+     //! \brief Largest value that can be returned from random engine.
+     static constexpr result_type max() { return std::numeric_limits<result_type>::max(); }
+

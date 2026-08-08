@@ -34,7 +34,7 @@ jobs:
 
       - name: Install CUDA Toolkit
         id: cuda-toolkit
-        uses: Jimver/cuda-toolkit@v0.2.35
+        uses: Jimver/cuda-toolkit@v0.2.36
         with:
           cuda: "13.2.0"
       
@@ -54,6 +54,8 @@ jobs:
           curl --retry 10 -Lfo gromacs_src.tar.gz ${{ env.gmxdownloadlink }}
           echo "${{ env.gmxmd5hash }}  gromacs_src.tar.gz" | md5sum -c
           tar xf gromacs_src.tar.gz
+          cd gromacs-${{ env.gmxversion }}
+          patch -p1 < ../0001-fix-MSVC-error-C3615.patch
 
       - name: Compile GROMACS CUDA
         shell: cmd
