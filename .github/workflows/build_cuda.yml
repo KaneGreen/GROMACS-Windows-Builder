@@ -63,7 +63,7 @@ jobs:
           cd gromacs-${{ env.gmxversion }}
           mkdir build
           cd build
-          call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+          call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvars64.bat" x64 -vcvars_ver=14.44
           cmake -G Ninja -DCMAKE_BUILD_TYPE=Release "-DCMAKE_INSTALL_PREFIX=${{ env.gmxcompileto }}" "-DCMAKE_PREFIX_PATH=${{ env.dependpath }}" "-DGMX_GPU=CUDA" "-DGMX_SIMD=AVX2_256" "-DGMX_HWLOC=ON" ..
           cmake --build .
           cmake --install .
