@@ -52,7 +52,7 @@ vcpkg_cmake_configure(
         ${OPTIONS}
         "-DCMAKE_PROJECT_INCLUDE=${CURRENT_PORT_DIR}/cmake-project-include.cmake"
         -DBUILD_TESTING=OFF
-        -DBUILD_WITHOUT_LAPACK=ON
+        -DBUILD_WITHOUT_LAPACK=OFF
         -DNOFORTRAN=ON
     MAYBE_UNUSED_VARIABLES
         GETARCH_BINARY_DIR
@@ -86,4 +86,9 @@ endif()
 
 file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/include" "${CURRENT_PACKAGES_DIR}/debug/share")
 
-vcpkg_install_copyright(FILE_LIST "${SOURCE_PATH}/LICENSE")
+set(LICENSE_FILES "${SOURCE_PATH}/LICENSE")
+list(APPEND LICENSE_FILES
+    "${SOURCE_PATH}/lapack-netlib/LICENSE"
+    "${SOURCE_PATH}/lapack-netlib/LAPACKE/LICENSE"
+)
+vcpkg_install_copyright(FILE_LIST ${LICENSE_FILES})
