@@ -10,6 +10,7 @@ vcpkg_from_github(
         system-check-msvc.diff
         win32-uwp.diff
         android-exclude-sme.diff
+        arm64-generic-omatcopy.diff # https://github.com/OpenMathLib/OpenBLAS/pull/5977
 )
 
 vcpkg_check_features(OUT_FEATURE_OPTIONS OPTIONS
@@ -51,6 +52,7 @@ vcpkg_cmake_configure(
         ${OPTIONS}
         "-DCMAKE_PROJECT_INCLUDE=${CURRENT_PORT_DIR}/cmake-project-include.cmake"
         -DBUILD_TESTING=OFF
+        -DBUILD_WITHOUT_LAPACK=ON
         -DNOFORTRAN=ON
     MAYBE_UNUSED_VARIABLES
         GETARCH_BINARY_DIR
