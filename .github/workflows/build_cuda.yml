@@ -36,7 +36,7 @@ jobs:
         id: cuda-toolkit
         uses: Jimver/cuda-toolkit@v0.2.36
         with:
-          cuda: "13.3.1"
+          cuda: "13.2.2"
       
       - name: Copy BuildCustomizations
         shell: pwsh
@@ -93,5 +93,5 @@ jobs:
         uses: actions/upload-artifact@v7
         if: ${{ success() }}
         with:
-          name: GROMACS-${{ env.gmxversion }}_${{ env.BUILDDATE }}_GPU_Windows-AMD64-AVX2_CUDA1331_msvc
+          name: GROMACS-${{ env.gmxversion }}_${{ env.BUILDDATE }}_GPU_Windows-AMD64-AVX2_CUDA1322_msvc
           path: ${{ env.gmxcompileto }}
