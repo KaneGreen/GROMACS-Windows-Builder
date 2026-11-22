@@ -23,6 +23,8 @@ jobs:
       - name: Install FFTW, hwloc, OpenBLAS
         shell: pwsh
         run: |
+          Set-Location C:/vcpkg
+          git pull --ff-only
           New-Item -ItemType Directory -Force ${{ env.dependhome }}
           Set-Location ${{ env.dependhome }}
           vcpkg new --application
